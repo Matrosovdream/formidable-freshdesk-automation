@@ -16,10 +16,11 @@ class FrmFreshdeskLogger {
      * Short log type → filename
      */
     private const LOG_MAP = [
-        'ticket_create' => 'ticket_create_webhook.log',
-        'processor'     => 'processor.log',
-        'errors'        => 'errors.log',
-        'raw'           => 'raw_payload.log',
+        'ticket_create'            => 'ticket_create_webhook.log',
+        'ticket_create_processed' => 'ticket_created_processed.log',
+        'processor'                => 'processor.log',
+        'errors'                   => 'errors.log',
+        'raw'                      => 'raw_payload.log',
     ];
 
     public function __construct(?string $base_dir = null) {
@@ -42,12 +43,19 @@ class FrmFreshdeskLogger {
 
         $file = $this->resolve_log_file($log_type);
 
-        $line = wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        if ($line === false) {
-            $line = '{"error":"json_encode_failed","received_at":"' . esc_js(current_time('mysql')) . '"}';
+        // Timestamp like: [2026-01-16 09:13:04-08:00]
+        $timestamp = '[' . wp_date('Y-m-d H:i:sP') . '] ';
+
+        $json = wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        if ($json === false) {
+            $json = wp_json_encode([
+                'error'       => 'json_encode_failed',
+                'received_at' => wp_date('c'),
+            ]);
         }
 
-        $line .= PHP_EOL;
+        $line = $timestamp . $json . PHP_EOL;
 
         @file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
     }
@@ -63,5 +71,4 @@ class FrmFreshdeskLogger {
 
         return $this->base_dir . self::LOG_MAP[$log_type];
     }
-    
 }

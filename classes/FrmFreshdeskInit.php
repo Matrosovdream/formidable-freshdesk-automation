@@ -6,11 +6,20 @@ class FrmFreshdeskInit {
 
     public function __construct() {
 
+        // Webhook processors
+        $this->include_webhook_processors();
+
         // Loggers
         $this->include_loggers();
 
         // Webhooks
         $this->include_webhooks();
+
+        // Admin settings
+        $this->include_admin_settings();
+
+        // Helpers
+        $this->include_helpers();
 
         // API class
         /*
@@ -24,9 +33,6 @@ class FrmFreshdeskInit {
 
         // Models
         $this->include_models();
-
-        // Helpers
-        $this->include_helpers();
 
         // CRON
         $this->include_cron();
@@ -63,6 +69,27 @@ class FrmFreshdeskInit {
 
         // Ticket Created Webhook
         require_once FFDA_PLUGIN_DIR . '/webhooks/FrmFreshdeskWebhookTicketCreate.php';
+        
+    }
+
+    private function include_webhook_processors(): void {
+
+        // Ticket Created Processor
+        require_once FFDA_PLUGIN_DIR . '/classes/webhook_processors/FrmFreshdeskTicketCreateProcessor.php';
+        
+    }
+
+    private function include_admin_settings(): void {
+
+        // Admin Settings
+        require_once FFDA_PLUGIN_DIR . '/classes/admin/FrmFreshdeskAdminSettings.php';
+        
+    }
+
+    private function include_helpers(): void {
+
+        // Options Helper
+        //require_once FFDA_PLUGIN_DIR . '/classes/helpers/FrmFreshdeskOptionsHelper.php';
         
     }
 

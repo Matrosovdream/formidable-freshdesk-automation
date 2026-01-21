@@ -6,6 +6,9 @@ class FrmFreshdeskInit {
 
     public function __construct() {
 
+        // Helpers
+        $this->include_helpers();
+
         // Webhook processors
         $this->include_webhook_processors();
 
@@ -18,8 +21,7 @@ class FrmFreshdeskInit {
         // Admin settings
         $this->include_admin_settings();
 
-        // Helpers
-        $this->include_helpers();
+        
 
         // API class
         /*
@@ -90,6 +92,9 @@ class FrmFreshdeskInit {
 
         // Options Helper
         //require_once FFDA_PLUGIN_DIR . '/classes/helpers/FrmFreshdeskOptionsHelper.php';
+
+        // Entry Helper
+        require_once FFDA_PLUGIN_DIR . '/classes/helpers/FrmFreshdeskEntryHelper.php';
         
     }
 

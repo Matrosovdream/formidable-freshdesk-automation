@@ -27,10 +27,19 @@ class FrmFreshdeskTicketCreateProcessor {
     // Logger
     private $logger;
 
+    // Entry helper
+    private $entryHelper;
+
     public function __construct( 
-        $logger = new FrmFreshdeskLogger() 
+        $logger = new FrmFreshdeskLogger(),
+        $entryHelper=null
         ) {
         $this->logger = $logger;
+
+        if ( $entryHelper === null ) {
+            $this->entryHelper = new FrmFreshdeskEntryHelper();
+        }
+
     }
 
     /**
@@ -110,13 +119,15 @@ class FrmFreshdeskTicketCreateProcessor {
             $item_id = (int) $item_id;
 
             // Update existing status meta row (field 7)
-            $res = $wpdb->update(
+            /*$res = $wpdb->update(
                 $table,
                 ['meta_value' => self::STATUS_SET],
                 ['item_id' => $item_id, 'field_id' => self::STATUS_FIELD_ID],
                 ['%s'],
                 ['%d', '%d']
-            );
+            );*/
+
+            $res = $this->entryHelper->updateMetaField( $item_id, self::STATUS_FIELD_ID, self::STATUS_SET );
 
             if ($res !== false) {
                 // $res is number of rows updated; can be 0 if already same value

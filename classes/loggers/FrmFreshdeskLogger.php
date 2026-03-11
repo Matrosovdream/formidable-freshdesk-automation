@@ -18,6 +18,7 @@ class FrmFreshdeskLogger {
     private const LOG_MAP = [
         'ticket_create'            => 'ticket_create_webhook.log',
         'ticket_create_processed' => 'ticket_created_processed.log',
+        'ticket_status_entry_update' => 'ticket_status_entry_update.log',
         'processor'                => 'processor.log',
         'errors'                   => 'errors.log',
         'raw'                      => 'raw_payload.log',

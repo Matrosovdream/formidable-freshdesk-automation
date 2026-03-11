@@ -129,6 +129,14 @@ class FrmFreshdeskTicketCreateProcessor {
 
             $res = $this->entryHelper->updateMetaField( $item_id, self::STATUS_FIELD_ID, self::STATUS_SET );
 
+            // Log each update result (for debugging; can be removed later)
+            $this->logger->log('ticket_status_entry_update', [
+                'item_id' => $item_id,
+                'field_id' => self::STATUS_FIELD_ID,
+                'status_to' => self::STATUS_SET,
+                'update_result' => $res,
+            ]);
+
             if ($res !== false) {
                 // $res is number of rows updated; can be 0 if already same value
                 $updated += (int) $res;

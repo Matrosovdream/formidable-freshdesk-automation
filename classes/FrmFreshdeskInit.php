@@ -70,7 +70,9 @@ class FrmFreshdeskInit {
     private function include_webhooks(): void {
 
         // Ticket Created Webhook
-        require_once FFDA_PLUGIN_DIR . '/webhooks/FrmFreshdeskWebhookTicketCreate.php';
+        //if( isset( $_GET['ttt'] ) ) {
+            require_once FFDA_PLUGIN_DIR . '/webhooks/FrmFreshdeskWebhookCreate.php';
+        //}
         
     }
 
